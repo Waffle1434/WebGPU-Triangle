@@ -9,6 +9,8 @@
 
 using namespace wgpu;
 
+bool error = false;
+
 void GetDevice(Instance instance, void (*callback)(Device)) {
     instance.RequestAdapter(
         nullptr,
@@ -26,7 +28,8 @@ void GetDevice(Instance instance, void (*callback)(Device)) {
                     Device device = Device::Acquire(cDevice);
                     device.SetUncapturedErrorCallback(
                         [](WGPUErrorType type, const char* message, void* userdata) {
-                            std::cout << "Error: " << type << " - message: " << message;
+                            std::cerr << "Error(" << type << "): " << message;
+                            error = true;
                         },
                         nullptr);
                     reinterpret_cast<void (*)(Device)>(userdata)(device);
