@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 3.13) # CMake version check
-project(app)                         # Create project "app"
-set(CMAKE_CXX_STANDARD 20)           # Enable C++20 standard
+cmake_minimum_required(VERSION 3.13)
+project(app)
+set(CMAKE_CXX_STANDARD 20)
 
-add_executable(app "main.cpp")
+file(GLOB_RECURSE SRC_FILES ./src/*.h ./src/*.cpp)
+add_executable(app ${SRC_FILES})
 
 if(EMSCRIPTEN)
   set_target_properties(app PROPERTIES SUFFIX ".html")
